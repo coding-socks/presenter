@@ -1,0 +1,16 @@
+# Jetbrains IDE
+.idea/
+*.iml
+
+# Binary
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Coverage
+*.out
