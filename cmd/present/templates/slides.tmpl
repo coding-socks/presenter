@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>{{.Title}}</title>
+  <link rel="shortcut icon" href="/static/favicon.ico"/>
+  <link type="text/css" rel="stylesheet" href="/static/slides.css">
+</head>
+<body>
+  <section class="slides">
+    <article>
+      <h1>{{.Title}}</h1>
+      {{with .Subtitle}}<h3>{{.}}</h3>{{end}}
+      {{if not .Time.IsZero}}<h3>{{.Time.Format "2 January 2006"}}</h3>{{end}}
+      {{range .Authors}}
+        <div class="presenter">
+          {{.RenderText}}
+        </div>
+      {{end}}
+    </article>
+
+    {{range $i, $s := .Sections}}
+      <!-- start of slide {{$i}} -->
+      <article>
+        {{$s.RenderTitle}}
+        {{$s.Render}}
+        <span class="page-number">{{pagenum $i 1}}</span>
+      </article>
+      <!-- end of slide {{$i}} -->
+    {{end}}
+
+    <article>
+      <h2>Thank you</h2>
+      {{range .Authors}}
+        <div class="presenter">
+          {{.Render}}
+        </div>
+      {{end}}
+    </article>
+  </section>
+
+  <div id="help">
+    Use the left and right arrow keys or click the left and right
+    edges of the page to navigate between slides.<br>
+    (Press 'H' or navigate to hide this message.)
+  </div>
+
+  <script src="/static/slides.js"></script>
+</body>
+</html>

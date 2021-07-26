@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Presenter</title>
+  <link rel="shortcut icon" href="/static/favicon.ico"/>
+  <link type="text/css" rel="stylesheet" href="/static/dir.css">
+</head>
+<body>
+  <header>
+    <h1>Presenter</h1>
+  </header>
+  <main>
+    <h2>
+      <a href="/">~</a> /
+      {{range .Breadcrumbs}}
+        <a href="{{.Link}}">{{.Dir}}</a> /
+      {{end}}
+    </h2>
+
+    {{with .Slides}}
+      <h4>Slide decks:</h4>
+      <dl>
+        {{range .}}
+          <dd><a href="{{.Path}}">{{.Name}}</a>: {{.Title}}</dd>
+        {{end}}
+      </dl>
+    {{end}}
+
+    {{with .Dirs}}
+      <h4>Sub-directories:</h4>
+      <dl>
+        {{range .}}
+          <dd><a href="{{.Path}}">{{.Name}}</a></dd>
+        {{end}}
+      </dl>
+    {{end}}
+
+  </main>
+
+  <footer>
+    <pre>{{ .License }}</pre>
+  </footer>
+</body>
+</html>
