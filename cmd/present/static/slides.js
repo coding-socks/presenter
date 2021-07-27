@@ -1,6 +1,7 @@
 (() => {
-  const slidesDom = document.querySelector('.slides')
-  const slides = slidesDom.querySelectorAll(' article')
+  const slidesWrapper = document.querySelector('.slides')
+  const slides = slidesWrapper.querySelectorAll('article')
+  const helpSnackbar = document.querySelector('#help')
 
   function goTo(slideIndex) {
     slides.forEach(slide => slide.className = '')
@@ -55,7 +56,7 @@
     if (ratio > 1) {
       ratio = 1
     }
-    slidesDom.style.transform = `scale(${ratio})`
+    slidesWrapper.style.transform = `scale(${ratio})`
   }
   scale()
 
@@ -65,12 +66,17 @@
     timeOut = setTimeout(() => scale(), 200)
   })
 
+  function hideHelpSnackbar() {
+    helpSnackbar.style.display = 'none'
+  }
+
   function moveBackward() {
     const slide = getSlideIndex()
     if (slide > 0) {
       history.replaceState(undefined, undefined, `#${slide - 1}`)
       window.dispatchEvent(new HashChangeEvent('hashchange'))
     }
+    hideHelpSnackbar()
   }
 
   function moveForward() {
@@ -79,6 +85,7 @@
       history.replaceState(undefined, undefined, `#${slide + 1}`)
       window.dispatchEvent(new HashChangeEvent('hashchange'))
     }
+    hideHelpSnackbar()
   }
 
   window.addEventListener('keydown', event => {
@@ -94,6 +101,8 @@
       moveBackward();
     } else if (event.code === 'Space') {
       moveForward();
+    } else if (event.code === 'KeyH') {
+      hideHelpSnackbar()
     }
   })
 })()
