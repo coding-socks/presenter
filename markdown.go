@@ -5,6 +5,7 @@ import (
 	"github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
+	"github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/text"
 	"github.com/yuin/goldmark/util"
 )
@@ -15,6 +16,9 @@ var markdown = goldmark.New(
 		extension.TaskList,
 		NewTwitterLinkExtension(),
 		NewAnchorTargetBlankExtension(),
+	),
+	goldmark.WithRendererOptions(
+		html.WithUnsafe(),
 	),
 )
 
