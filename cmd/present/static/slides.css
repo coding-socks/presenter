@@ -11,7 +11,8 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: #212121;
+  position: fixed;
+  background: #e5e5e5;
 
   font-family: 'Roboto', sans-serif;
 }
@@ -51,18 +52,19 @@ h3 {
 
 code {
   font-family: 'JetBrains Mono', monospace;
-  background-color: #edebefff;
+  background-color: #e2f1f8;
+  color: #000000;
 }
 
 blockquote {
   margin: 0;
-  border-left: .25em solid #e3e0e6ff;
-  color: #736a7dff;
+  border-left: .25em solid #e2f1f8;
+  color: #62757f;
   padding: 0 1em;
 }
 
 pre {
-  background-color: #edebefff;
+  background-color: #e2f1f8;
   border-radius: 6px;
   font-size: 85%;
   line-height: 1.45;
@@ -82,7 +84,17 @@ blockquote, details, dl, ol, p, pre, table, ul {
 }
 
 #help {
-  display: none;
+  color: hsla(0,0%,100%,.87);
+  background: #323232;
+  position: fixed;
+  margin: auto;
+  max-width: 80vw;
+  display: inline-block;
+  bottom: 25px;
+  left: 25px;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 }
 
 .slides {
@@ -98,6 +110,7 @@ article {
   display: none;
   background: white;
   color: #424242;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 
   position: absolute;
   overflow: hidden;
@@ -107,11 +120,11 @@ article {
   top: 50%;
   margin: -350px 0 0 -550px;
 
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 36px;
   z-index: 1;
 
-  transition: transform 200ms;
+  transition: transform 200ms, blur 200ms;
 }
 
 article.current {
@@ -121,22 +134,22 @@ article.current {
 
 article.next {
   display: block;
-  transform: translate(1130px);
+  transform: translate(1100px) scale(0.9);
 }
 
 article.after-next {
   display: block;
-  transform: translate(2260px);
+  transform: translate(2200px) scale(0.9);
 }
 
 article.prev {
   display: block;
-  transform: translate(-1130px);
+  transform: translate(-1100px) scale(0.9);
 }
 
 article.before-prev {
   display: block;
-  transform: translate(-2260px);
+  transform: translate(-2200px) scale(0.9);
 }
 
 .presenter {
@@ -147,9 +160,9 @@ article.before-prev {
 }
 
 .page-number {
-  color: #8c8c8c;
+  color: #62757f;
   font-size: 20px;
   position: absolute;
-  bottom: 0;
-  right: 10px;
+  bottom: 4px;
+  right: 8px;
 }
