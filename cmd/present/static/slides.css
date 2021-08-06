@@ -5,6 +5,9 @@
   --primary: #90a4ae;
   --primary-light: #c1d5e0;
   --primary-dark: #62757f;
+  --secondary: #7e57c2;
+  --secondary-light: #b085f5;
+  --secondary-dark: #4d2c91;
 }
 
 *, ::after, ::before {
@@ -77,8 +80,7 @@ pre {
 }
 
 a {
-  color: var(--primary-dark);
-  font-weight: 700;
+  color: var(--secondary);
 }
 
 blockquote, details, dl, ol, p, pre, table, ul {
