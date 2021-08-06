@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
 
+:root {
+  --primary: #90a4ae;
+  --primary-light: #c1d5e0;
+  --primary-dark: #62757f;
+}
+
 *, ::after, ::before {
   box-sizing: border-box;
 }
@@ -12,7 +18,7 @@ body {
   width: 100vw;
   overflow: hidden;
   position: fixed;
-  background: #e5e5e5;
+  background: var(--primary-dark);
 
   font-family: 'Roboto', sans-serif;
 }
@@ -49,19 +55,19 @@ h3 {
 
 code {
   font-family: 'JetBrains Mono', monospace;
-  background-color: #e2f1f8;
+  background-color: var(--primary-light);
   color: #000000;
 }
 
 blockquote {
   margin: 0;
-  border-left: .25em solid #e2f1f8;
-  color: #62757f;
+  border-left: .25em solid var(--primary-light);
+  color: var(--primary-dark);
   padding: 0 1em;
 }
 
 pre {
-  background-color: #e2f1f8;
+  background-color: var(--primary-light);
   border-radius: 6px;
   font-size: 85%;
   line-height: 1.45;
@@ -71,7 +77,7 @@ pre {
 }
 
 a {
-  color: #212121;
+  color: var(--primary-dark);
   font-weight: 700;
 }
 
