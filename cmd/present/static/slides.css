@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
 
 *, ::after, ::before {
@@ -26,7 +26,6 @@ h1 {
   line-height: 1em;
   margin: 200px 0 5px;
   padding: 0 40px 0 0;
-  font-weight: 600;
 }
 
 h2 {
@@ -34,7 +33,6 @@ h2 {
   line-height: 1.2em;
   margin: 0;
   padding: 0 40px 0 0;
-  font-weight: 600;
 }
 
 h2.empty {
@@ -47,7 +45,6 @@ h3 {
   line-height: 1.2em;
   margin: 0;
   padding: 0 40px 0 0;
-  font-weight: 600;
 }
 
 code {
@@ -75,7 +72,7 @@ pre {
 
 a {
   color: #212121;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 blockquote, details, dl, ol, p, pre, table, ul {
