@@ -30,7 +30,9 @@ func ParseSlide(r io.Reader, mode ParseMode) (*Doc, error) {
 	ndoc := markdown.Parser().Parse(reader)
 	title, metadata, sections := parseSlide(ndoc, mode)
 	doc := new(Doc)
-	doc.Title = string(title.Text(content))
+	if title != nil {
+		doc.Title = string(title.Text(content))
+	}
 	for _, meta := range metadata {
 		if meta.Kind() != ast.KindParagraph {
 			return nil, fmt.Errorf("unexpected node type in metadata: %s", meta.Kind())
