@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"errors"
 	"flag"
 	"github.com/coding-socks/presenter"
 	"html/template"
@@ -70,6 +71,9 @@ type breadcrumb struct {
 }
 
 func parseBreadcrumbs(p string) []breadcrumb {
+	if p == "." {
+		p = ""
+	}
 	p = strings.Trim(p, "/")
 	dirs := strings.Split(p, "/")
 	breadcrumbs := make([]breadcrumb, 0, len(dirs))
@@ -115,6 +119,13 @@ func pageNum(index int, offset int) int {
 	return index + offset
 }
 
+var indexName = "_index.slide"
+
+type fsDirEntry interface {
+	Name() string
+	IsDir() bool
+}
+
 func presentationServer(content fs.FS) http.Handler {
 	contentFileServer := http.FileServer(http.FS(content))
 
@@ -129,8 +140,7 @@ func presentationServer(content fs.FS) http.Handler {
 			return
 		}
 
-		upath := strings.TrimPrefix(req.URL.Path, "/")
-		p := path.Clean(upath)
+		p := path.Clean(strings.TrimPrefix(req.URL.Path, "/"))
 		if p == "" {
 			p = "."
 		}
@@ -144,7 +154,7 @@ func presentationServer(content fs.FS) http.Handler {
 			return
 		}
 		if stat.IsDir() {
-			d := &dirListData{Breadcrumbs: parseBreadcrumbs(upath)}
+			d := &dirListData{Breadcrumbs: parseBreadcrumbs(p)}
 
 			files, err := fs.ReadDir(content, p)
 			if err != nil {
@@ -152,20 +162,34 @@ func presentationServer(content fs.FS) http.Handler {
 				http.Error(resp, http.StatusText(500), 500)
 				return
 			}
-			for _, f := range files {
-				fp := path.Join(p, f.Name())
+			for _, ff := range files {
+				f := ff.(fsDirEntry)
 				e := dirEntry{
 					Name: f.Name(),
-					Path: filepath.ToSlash(fp),
+					Path: filepath.ToSlash(path.Join(p, f.Name())),
+				}
+				if strings.HasPrefix(f.Name(), ".") {
+					// Ignore hidden files
+					continue
+				}
+				if f.IsDir() {
+					s, err := fs.Stat(content, path.Join(e.Path, indexName))
+					if errors.Is(err, fs.ErrNotExist) {
+						// Directory has no index
+					} else if err != nil {
+						log.Printf("cound not read stat of %s: %v", path.Join(f.Name(), indexName), err)
+					} else {
+						e.Name = path.Join(e.Name, indexName)
+						e.Path = path.Join(e.Path, indexName)
+						f = s
+					}
 				}
 				switch {
-				case strings.HasPrefix(f.Name(), "."):
-					// Ignore hidden files
 				case f.IsDir():
 					d.Dirs = append(d.Dirs, e)
 				case strings.HasSuffix(f.Name(), ".slide"):
-					if p, err := parse(content, fp, presenter.TitlesOnly); err != nil {
-						log.Printf("parse(%q, present.TitlesOnly): %v", fp, err)
+					if p, err := parse(content, e.Path, presenter.TitlesOnly); err != nil {
+						log.Printf("parse(%q, present.TitlesOnly): %v", f.Name(), err)
 					} else {
 						e.Title = p.Title
 					}
@@ -176,7 +200,6 @@ func presentationServer(content fs.FS) http.Handler {
 			sort.Sort(d.Slides)
 			d.License = license
 			contentTemplates.ExecuteTemplate(resp, "dir.tmpl", d)
-			return
 		} else if path.Ext(p) == ".slide" {
 			d := &presenter.Doc{}
 			if p, err := parse(content, p, 0); err != nil {
